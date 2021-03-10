@@ -1,3 +1,5 @@
 body {
   background: rgb(145, 227, 252);
+  margin: 0;
+  min-height: 100vh;
 }
