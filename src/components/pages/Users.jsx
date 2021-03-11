@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+// import { UserContext } from "../../providers/UserProvider";
+import { SecondaryButton } from "../atoms/button/SecondaryButton";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { SerchInput } from "../molecules/SerchInput";
 import { UserCard } from "../organisms/user/UserCard";
+import { userState } from "../../store/UserState";
 
 const users = [...Array(10).keys()].map((val) => {
   return {
@@ -20,16 +23,20 @@ const users = [...Array(10).keys()].map((val) => {
 });
 
 export const Users = () => {
-  const { state } = useLocation();
-  const isAdmin = state ? state.isAdmin : false;
+  // const { userInfo, setUserInfo } = useContext(UserContext);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+
+  const onClickSwitch = () => setUserInfo({ isAdmin: !userInfo.isAdmin });
 
   return (
     <SContainer>
       <h2>Users</h2>
       <SerchInput />
+      <br />
+      <SecondaryButton onClick={onClickSwitch}>Change</SecondaryButton>
       <SUserArea>
         {users.map((obj) => (
-          <UserCard key={obj.id} user={obj} isAdmin={isAdmin} />
+          <UserCard key={obj.id} user={obj} />
         ))}
       </SUserArea>
     </SContainer>
